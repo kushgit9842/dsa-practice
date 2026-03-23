@@ -1,0 +1,45 @@
+// Problem: Product of Array Except Self
+// Platform: LeetCode
+// Link: https://leetcode.com/problems/product-of-array-except-self/
+// Difficulty: Medium
+
+// Approach:
+// We avoid division and use prefix and suffix products.
+// First pass: store product of all elements to the left (prefix product).
+// Second pass: multiply with product of all elements to the right (suffix product).
+// This way, each index gets product of all elements except itself.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1) (excluding output array)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = size(nums);
+        vector<int> arr(n, 1);
+
+        int pp = 1; // prefix product
+        int sp = 1; // suffix product
+
+        // Left to right (prefix)
+        for (int i = 0; i < n; i++) {
+            arr[i] *= pp;
+            pp *= nums[i];
+        }
+
+        // Right to left (suffix)
+        for (int i = n - 1; i >= 0; i--) {
+            arr[i] *= sp;
+            sp *= nums[i];
+        }
+
+        return arr;
+    }
+};
+
+// Key Learning:
+// Using prefix + suffix products allows solving in O(n) without division.
+// This pattern is very common in array problems.
