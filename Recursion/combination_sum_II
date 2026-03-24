@@ -1,0 +1,58 @@
+// Problem: Combination Sum II
+// Platform: LeetCode
+// Link: https://leetcode.com/problems/combination-sum-ii/
+// Difficulty: Medium
+
+// Approach:
+// Use backtracking to find all combinations that sum to target.
+// Sort the array to handle duplicates.
+// At each step, pick an element and move forward (i+1) since each element can be used only once.
+// Skip duplicate elements at the same recursion level to avoid repeated combinations.
+
+// Time Complexity: O(2^n)
+// Space Complexity: O(n) (recursion stack)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    void solve(vector<int>& candidates, int target, vector<int> curr, vector<vector<int>>& result, int idx) {
+        if (target < 0)
+            return;
+
+        if (target == 0) {
+            result.push_back(curr); // valid combination found
+            return;
+        }
+        
+        for (int i = idx; i < candidates.size(); i++) {
+
+            // Skip duplicates at same recursion level
+            if (i > idx && candidates[i] == candidates[i - 1])
+                continue;
+
+            curr.push_back(candidates[i]);
+
+            // Move to next index (i+1) → element used only once
+            solve(candidates, target - candidates[i], curr, result, i + 1);
+
+            curr.pop_back(); // backtrack
+        }
+    }
+
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> result;
+        vector<int> curr;
+
+        sort(candidates.begin(), candidates.end()); // required for duplicate handling
+
+        solve(candidates, target, curr, result, 0);
+
+        return result;
+    }
+};
+
+// Key Learning:
+// Sorting + skipping duplicates + moving to i+1 ensures unique combinations
+// where each element is used only once.
