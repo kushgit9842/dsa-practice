@@ -1,0 +1,54 @@
+// Problem: Combination Sum
+// Platform: LeetCode
+// Link: https://leetcode.com/problems/combination-sum/
+// Difficulty: Medium
+
+// Approach:
+// Use backtracking to find all combinations that sum to target.
+// At each step, we can either take the current element multiple times
+// or move to the next element.
+// No need to handle duplicates explicitly like Combination Sum II.
+
+// Time Complexity: O(2^n)
+// Space Complexity: O(n) (recursion stack)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    void solve(vector<int>& candidates, int target, vector<int>& curr, vector<vector<int>>& result, int idx) {
+        
+        if (target == 0) {
+            result.push_back(curr);
+            return;
+        }
+
+        if (target < 0 || idx >= candidates.size()) {
+            return;
+        }
+
+        // Take current element (can reuse → same index)
+        curr.push_back(candidates[idx]);
+        solve(candidates, target - candidates[idx], curr, result, idx);
+
+        // Backtrack
+        curr.pop_back();
+
+        // Skip current element → move to next
+        solve(candidates, target, curr, result, idx + 1);
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> result;
+        vector<int> curr;
+
+        solve(candidates, target, curr, result, 0);
+
+        return result;
+    }
+};
+
+// Key Learning:
+// The only difference from Combination Sum II is that we reuse elements
+// by staying at the same index (idx instead of idx+1).
