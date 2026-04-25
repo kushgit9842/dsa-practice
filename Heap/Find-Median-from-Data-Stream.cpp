@@ -3,6 +3,42 @@
 // Difficulty: Hard
 // Topic    : Heap
 // Tags     : Two Pointers, Design, Sorting, Heap (Priority Queue), Data Stream
-// Date     : 2026-04-24
+// Date     : 2026-04-25
 // ─────────────────────────────────────────
-\n            upper_half.push(num);\n        }\n        // Add to max heap if empty or if num is smaller than the top of max heap\n        if (lower_half.empty() || num <= lower_half.top()) {\n            lower_half.push(num);\n        } else {\n\npublic:\n    MedianFinder() {}\n\n    void addNum(int num) {\n    // Max heap for the smaller half\n    priority_queue<int, vector<int>, less<int>> lower_half;\n    // Min heap for the larger half\n    priority_queue<int, vector<int>, greater<int>> upper_half;\nclass MedianFinder {\nprivate:\n["MedianFinder","addNum","addNum","findMedian","addNum","findMedian"]\n[[],[1],[2],[],[3],[]]\n[null,null,null,1.50000,null,2.00000]\n[null,null,null,1.50000,null,2.00000]\n
+class MedianFinder {
+private:
+    // Max heap for the smaller half
+    priority_queue<int, vector<int>, less<int>> lower_half;
+    // Min heap for the larger half
+    priority_queue<int, vector<int>, greater<int>> upper_half;
+
+public:
+    MedianFinder() {}
+
+    void addNum(int num) {
+        // Add to max heap if empty or if num is smaller than the top of max heap
+        if (lower_half.empty() || num <= lower_half.top()) {
+            lower_half.push(num);
+        } else {
+            upper_half.push(num);
+        }
+
+        // Balance heaps to ensure max heap size is one more than min heap size
+        if (lower_half.size() > upper_half.size() + 1) {
+            upper_half.push(lower_half.top());
+            lower_half.pop();
+        } else if (upper_half.size() > lower_half.size()) {
+            lower_half.push(upper_half.top());
+            upper_half.pop();
+        }
+    }
+
+    double findMedian() {
+        // If total number of elements is odd, return the top of the max heap
+        if (lower_half.size() > upper_half.size()) {
+            return (double)lower_half.top();
+        } 
+        // If total number of elements is even, return the average of the tops of the max and min heaps
+        return (lower_half.top() + upper_half.top()) / 2.0;
+    }
+};
