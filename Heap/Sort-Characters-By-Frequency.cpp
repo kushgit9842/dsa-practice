@@ -5,4 +5,34 @@
 // Tags     : Hash Table, String, Sorting, Heap (Priority Queue), Bucket Sort, Counting
 // Date     : 2026-04-25
 // ─────────────────────────────────────────
-        }\n\n        // Create a priority queue to store characters and their frequencies\npublic:\n    string frequencySort(string s) {\n        // Count the frequency of each character\n        unordered_map<char, int> freqMap;\n        for (char c : s) {\n            freqMap[c]++;\nclass Solution {\n        priority_queue<pair<int, char>> pq;\n        for (auto& pair : freqMap) {\n            pq.push({pair.second, pair.first});\n        }\n\n        // Create the result string\n        string result;\n        while (!pq.empty()) {\n"tree"\n"cccaaa"\n"Aabb"\n"eetr"\n"cccaaa"\n"bbaA"\n"eert"\n"aaaccc"\n"bbAa"\n
+class Solution {
+public:
+    string frequencySort(string s) {
+        // Count the frequency of each character
+        unordered_map<char, int> freqMap;
+        for (char c : s) {
+            freqMap[c]++;
+        }
+
+        // Create a priority queue to store characters and their frequencies
+        priority_queue<pair<int, char>> pq;
+        for (auto& pair : freqMap) {
+            pq.push({pair.second, pair.first});
+        }
+
+        // Create the result string
+        string result;
+        while (!pq.empty()) {
+            int freq = pq.top().first;
+            char c = pq.top().second;
+            pq.pop();
+
+            // Append the character to the result string 'freq' times
+            for (int i = 0; i < freq; i++) {
+                result.push_back(c);
+            }
+        }
+
+        return result;
+    }
+};
