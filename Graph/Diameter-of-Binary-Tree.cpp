@@ -3,6 +3,33 @@
 // Difficulty: Easy
 // Topic    : Graph
 // Tags     : Tree, Depth-First Search, Binary Tree
-// Date     : 2026-05-08
+// Date     : 2026-05-11
 // ─────────────────────────────────────────
- */\nclass Solution {\npublic:\n    int ans;\n    int diameterOfBinaryTree(TreeNode* root) {\n        ans = 1;\n        depth(root);\n        return ans - 1;\n    }\n    \n    int depth(TreeNode* node) {\n        if (!node) return 0;\n        int L = depth(node->left);\n        int R = depth(node->right);\n        ans = max(ans, L + R + 1);\n        return max(L, R) + 1;\n    }\n};\n[1,2,3,4,5]\n[1,2]\n3\n1\n3\n1\n
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int ans;
+    int diameterOfBinaryTree(TreeNode* root) {
+        ans = 1;
+        depth(root);
+        return ans - 1;
+    }
+    
+    int depth(TreeNode* node) {
+        if (!node) return 0;
+        int L = depth(node->left);
+        int R = depth(node->right);
+        ans = max(ans, L + R + 1);
+        return max(L, R) + 1;
+    }
+};
